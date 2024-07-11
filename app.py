@@ -58,8 +58,8 @@ def get_places(location, place_type):
 # Streamlit UI
 st.title("Google Maps Enhanced Insights 📍➡️📍")
 
-origin = st.text_input("Enter the Origin Location:", placeholder="e.g., Kannur")
-destination = st.text_input("Enter the Destination Location:", placeholder="e.g., Kozhikode")
+origin = st.text_input("Enter the Origin Location:", placeholder="e.g., Ernakulam")
+destination = st.text_input("Enter the Destination Location:", placeholder="e.g., Trissur")
 
 if st.button("Get Insights 🚗"):
     if origin and destination:
