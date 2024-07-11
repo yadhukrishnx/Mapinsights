@@ -1,0 +1,6 @@
+streamlit
+python_dotenv
+pathlib
+googlemaps==4.5.3
+requests==2.31.0
+openweather-api
