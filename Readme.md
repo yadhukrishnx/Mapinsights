@@ -12,8 +12,12 @@ This Streamlit application calculates the distance between two locations and pro
 ## Prerequisites
 
 - Python 3.7 or higher
-- Google Cloud Platform account
+- Google Cloud Platform account With Credits 
 - OpenWeatherMap account
+
+## Demo
+
+![screenshot]("https://github.com/yadhukrishnx/Mapinsights/blob/master/images/demo.png")
 
 ## Installation
 
