@@ -1,16 +1,18 @@
-
-import streamlit as st
-from dotenv import load_dotenv
+import streamlit as st # type: ignore
+from dotenv import load_dotenv # type: ignore
 import os
-import googlemaps
-import requests
+import googlemaps # type: ignore
+import requests # type: ignore
+import openai # type: ignore
 
 # Load environment variables
 load_dotenv()
 
-# Configure Google Maps client
+# Configure API clients
 gmaps = googlemaps.Client(key=os.getenv("GOOGLE_MAPS_API_KEY"))
 weather_api_key = os.getenv("WEATHER_API_KEY")
+openai_api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = openai_api_key
 
 # Function to calculate distance and duration between two locations
 def get_distance(origin, destination):
@@ -55,6 +57,22 @@ def get_places(location, place_type):
     except Exception as e:
         return [str(e)]
 
+# Function to get place description using OpenAI API
+def get_place_description(place_name):
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": f"Provide a brief description of {place_name} including famous landmarks."}
+            ],
+            max_tokens=50
+        )
+        description = response.choices[0].message['content'].strip()
+        return description
+    except Exception as e:
+        return str(e)
+
 # Streamlit UI
 st.title("Google Maps Enhanced Insights 📍➡️📍")
 
@@ -71,31 +89,42 @@ if st.button("Get Insights 🚗"):
         hotels_destination = get_places(destination, "lodging")
         restaurants_destination = get_places(destination, "restaurant")
 
-        if distance and duration:
-            st.markdown("## Distance and Duration:")
-            st.write(f"Distance: {distance}")
-            st.write(f"Duration: {duration}")
+        origin_description = get_place_description(origin)
+        destination_description = get_place_description(destination)
 
+        st.markdown(f"## About {origin}:")
+        st.write(origin_description)
         if weather_origin_desc and weather_origin_temp:
             st.markdown(f"## Weather at {origin}:")
             st.write(f"Weather: {weather_origin_desc}")
             st.write(f"Temperature: {weather_origin_temp}°C")
 
+        st.markdown(f"## About {destination}:")
+        st.write(destination_description)
         if weather_dest_desc and weather_dest_temp:
             st.markdown(f"## Weather at {destination}:")
             st.write(f"Weather: {weather_dest_desc}")
             st.write(f"Temperature: {weather_dest_temp}°C")
 
-        st.markdown(f"## Hotels near {origin}:")
-        st.write(", ".join(hotels_origin))
+        if distance and duration:
+            st.markdown("## Distance and Duration:")
+            st.write(f"Distance: {distance}")
+            st.write(f"Duration: {duration}")
 
-        st.markdown(f"## Restaurants near {origin}:")
-        st.write(", ".join(restaurants_origin))
+        
+        st.markdown(f"\n\n##### Admin Instructions: Hiding Hotels,Restaurants and Weather at {origin} and {destination} Due to API Limitations")
+        
 
-        st.markdown(f"## Hotels near {destination}:")
-        st.write(", ".join(hotels_destination))
+        # st.markdown(f"## Hotels near {origin}:")
+        # st.write(", ".join(hotels_origin))
 
-        st.markdown(f"## Restaurants near {destination}:")
-        st.write(", ".join(restaurants_destination))
+        # st.markdown(f"## Restaurants near {origin}:")
+        # st.write(", ".join(restaurants_origin))
+
+        # st.markdown(f"## Hotels near {destination}:")
+        # st.write(", ".join(hotels_destination))
+
+        # st.markdown(f"## Restaurants near {destination}:")
+        # st.write(", ".join(restaurants_destination))
     else:
         st.error("Please enter both origin and destination locations.")
