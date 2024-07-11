@@ -1,6 +1,6 @@
 # Google Maps Enhanced Insights 📍➡️📍
 
-This Streamlit application calculates the distance between two locations and provides additional insights such as traffic, weather, hotels, and restaurants using the Google Maps API and OpenWeatherMap API.
+This Streamlit application calculates the distance between two locations and provides additional insights such as traffic, weather, hotels, and restaurants using the OPENai API,Google Maps API and OpenWeatherMap API.
 
 ## Features
 
