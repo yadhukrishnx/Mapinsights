@@ -17,7 +17,7 @@ This Streamlit application calculates the distance between two locations and pro
 
 ## Demo
 
- ![screenshot](https://github.com/yadhukrishnx/Mapinsights/blob/master/images/demo.png)
+ ![screenshot2](https://github.com/yadhukrishnx/Mapinsights/blob/master/images/demo.png)
  
 
 <br>
